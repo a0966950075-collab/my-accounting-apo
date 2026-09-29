@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+    <title>我的記帳本</title>
+  <style>
+*{box-sizing:border-box}body{margin:0;background:#f6f7fb;color:#172033;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.topbar{padding:22px max(18px,calc((100% - 1100px)/2));background:#111827;color:white;display:flex;align-items:center;justify-content:space-between}.topbar h1{margin:0;font-size:22px}.topbar p{margin:4px 0 0;color:#cbd5e1;font-size:13px}.ghost{background:#fff1;border:1px solid #ffffff33;color:white;padding:9px 12px;border-radius:10px}.tabs{position:sticky;top:0;z-index:5;background:white;border-bottom:1px solid #e5e7eb;display:flex;justify-content:center;overflow:auto}.tab{background:white;color:#64748b;padding:14px 18px;white-space:nowrap;border-bottom:3px solid transparent}.tab.active{color:#111827;border-bottom-color:#111827;font-weight:700}.page{display:none;max-width:1100px;margin:auto;padding:20px 16px 80px}.page.active{display:block}.grid{display:grid;gap:14px}.cards{grid-template-columns:repeat(4,1fr)}.card{background:white;border:1px solid #e6e8ee;border-radius:16px;padding:17px;box-shadow:0 3px 12px #1118270a}.label{font-size:13px;color:#64748b}.value{font-size:24px;font-weight:800;margin-top:8px}.sub{font-size:12px;color:#64748b;margin-top:6px}.income{color:#087443}.expense{color:#b42318}.balance{color:#1d4ed8}.negative{color:#b42318}.section{margin-top:18px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.section-head h2{font-size:17px;margin:0}.primary{background:#111827;color:white;padding:10px 14px;border-radius:10px;font-weight:700}.secondary{background:#eef2f7;color:#172033;padding:9px 12px;border-radius:10px}.danger{background:#fee4e2;color:#b42318;padding:8px 10px;border-radius:9px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;background:white;border:1px solid #e6e8ee;padding:12px;border-radius:14px}.toolbar input,.toolbar select,.form input,.form select,.form textarea{border:1px solid #d8dee8;border-radius:9px;padding:9px;background:white;width:100%}.toolbar>*{min-width:130px;flex:1}.table-wrap{overflow:auto;background:white;border:1px solid #e6e8ee;border-radius:14px}.table{width:100%;border-collapse:collapse;min-width:680px}.table th,.table td{text-align:left;padding:12px;border-bottom:1px solid #edf0f4;font-size:14px}.table th{color:#64748b;background:#fafbfc}.actions{display:flex;gap:6px}.progress{height:10px;background:#e8ecf2;border-radius:999px;overflow:hidden;margin:10px 0}.progress>div{height:100%;background:#111827;border-radius:999px}.budgetbar{height:12px;background:#e8ecf2;border-radius:999px;overflow:hidden}.budgetbar>div{height:100%;background:#2563eb}.over{background:#dc2626!important}.goal{margin-bottom:10px}.goal-row{display:flex;justify-content:space-between;gap:10px}.muted{color:#64748b}.chart{display:flex;align-items:end;gap:8px;height:180px;padding:15px 5px 5px;border-top:1px solid #eef1f5}.barbox{flex:1;height:100%;display:flex;align-items:end;gap:3px}.bar{flex:1;border-radius:5px 5px 0 0;min-height:2px}.bar.in{background:#22a06b}.bar.out{background:#ef6a5b}.barlabel{font-size:10px;text-align:center;color:#64748b}.legend{font-size:12px;color:#64748b}.form{display:grid;gap:12px}.form label{font-size:13px;color:#475569;font-weight:700}.form .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.modal{position:fixed;inset:0;background:#0f172a88;display:flex;align-items:center;justify-content:center;padding:15px;z-index:20}.modal.hidden{display:none}.modal-card{background:white;border-radius:18px;padding:18px;width:min(520px,100%);max-height:90vh;overflow:auto}.modal-head{display:flex;justify-content:space-between;align-items:center}.modal-head h2{font-size:18px}.icon{font-size:28px;background:none;color:#64748b}.empty{padding:30px;text-align:center;color:#64748b}.pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#eef2f7;font-size:12px}.alert{padding:10px 12px;border-radius:10px;background:#fff1f0;color:#b42318;font-size:13px}.success{padding:10px 12px;border-radius:10px;background:#ecfdf3;color:#087443;font-size:13px}@media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.page{padding:15px 12px 70px}.topbar{padding:17px 13px}.topbar .ghost{font-size:12px}.tabs{justify-content:flex-start}.tab{padding:13px 15px}.form .row{grid-template-columns:1fr}.value{font-size:20px}.card{padding:14px}.section-head{align-items:flex-start}}@media(max-width:430px){.cards{grid-template-columns:1fr}.cards .card:first-child{grid-column:auto}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div><h1>我的記帳本</h1><p>收支・預算・存錢</p></div>
+    <button class="ghost" id="exportBtn">備份資料</button>
+  </header>
+
+  <nav class="tabs" aria-label="主要功能">
+    <button class="tab active" data-page="dashboard">首頁</button>
+    <button class="tab" data-page="transactions">交易</button>
+    <button class="tab" data-page="budget">預算</button>
+    <button class="tab" data-page="savings">存錢</button>
+    <button class="tab" data-page="settings">設定</button>
+  </nav>
+
+  <main>
+    <section id="dashboard" class="page active"></section>
+    <section id="transactions" class="page"></section>
+    <section id="budget" class="page"></section>
+    <section id="savings" class="page"></section>
+    <section id="settings" class="page"></section>
+  </main>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+    <div class="modal-head"><h2 id="modalTitle"></h2><button class="icon" id="closeModal">×</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<script>
+const KEY="budget-app-v1";
+const defaultCategories=[
+  {id:"inc-salary",name:"薪資",type:"income",isDefault:true},{id:"inc-bonus",name:"獎金",type:"income",isDefault:true},
+  {id:"inc-invest",name:"投資",type:"income",isDefault:true},{id:"inc-side",name:"副業",type:"income",isDefault:true},{id:"inc-other",name:"其他收入",type:"income",isDefault:true},
+  {id:"out-food",name:"飲食",type:"expense",isDefault:true},{id:"out-transport",name:"交通",type:"expense",isDefault:true},{id:"out-fun",name:"娛樂",type:"expense",isDefault:true},
+  {id:"out-shopping",name:"購物",type:"expense",isDefault:true},{id:"out-home",name:"居住",type:"expense",isDefault:true},{id:"out-water",name:"水電",type:"expense",isDefault:true},
+  {id:"out-phone",name:"電信",type:"expense",isDefault:true},{id:"out-insurance",name:"保險",type:"expense",isDefault:true},{id:"out-medical",name:"醫療",type:"expense",isDefault:true},
+  {id:"out-sub",name:"訂閱",type:"expense",isDefault:true},{id:"out-other",name:"其他支出",type:"expense",isDefault:true}
+];
+let db=load();
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY));return x||{transactions:[],categories:defaultCategories,budgets:[],goals:[]}}catch(e){return{transactions:[],categories:defaultCategories,budgets:[],goals:[]}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db))}
+const money=n=>new Intl.NumberFormat("zh-TW",{style:"currency",currency:"TWD",maximumFractionDigits:0}).format(n||0);
+const cents=n=>Math.round(Number(n)*100);
+const dollars=c=>Math.round(c||0)/100;
+const uid=p=>p+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,7);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const today=()=>new Date().toISOString().slice(0,10);
+const monthNow=()=>today().slice(0,7);
+function monthTx(m){return db.transactions.filter(t=>t.date.startsWith(m))}
+function totals(list){return list.reduce((a,t)=>{a[t.type]+=t.amountCents;return a},{income:0,expense:0})}
+function balanceBefore(m){return totals(db.transactions.filter(t=>t.date.slice(0,7)<m)).income-totals(db.transactions.filter(t=>t.date.slice(0,7)<m)).expense}
+function monthStats(m){let x=totals(monthTx(m));return{carry:balanceBefore(m),income:x.income,expense:x.expense,balance:balanceBefore(m)+x.income-x.expense}}
+function yearStats(y){let x=totals(db.transactions.filter(t=>t.date.startsWith(y)));return{income:x.income,expense:x.expense,balance:x.income-x.expense}}
+function catName(id){return db.categories.find(c=>c.id===id)?.name||"未分類"}
+function render(){renderDashboard();renderTransactions();renderBudget();renderSavings();renderSettings()}
+function setPage(p){document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===p));document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.page===p));render()}
+document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>setPage(b.dataset.page));
+function renderDashboard(){
+ const m=monthNow(), y=String(new Date().getFullYear()), d=monthTx(m).filter(t=>t.date===today()), dt=totals(d), ms=monthStats(m), ys=yearStats(y);
+ const budgets=db.budgets.filter(b=>b.month===m), bt=budgets.reduce((s,b)=>s+b.amountCents,0), actual=monthTx(m).filter(t=>t.type==="expense").reduce((s,t)=>s+t.amountCents,0), pct=bt?Math.min(actual/bt*100,100):0;
+ const recent=[...Array(6)].map((_,i)=>{let z=new Date();z.setMonth(z.getMonth()-5+i);let mm=z.toISOString().slice(0,7),s=monthStats(mm);return{mm,in:s.income,out:s.expense}});
+ document.getElementById("dashboard").innerHTML=`
+ <div class="section"><div class="section-head"><h2>本月・${m}</h2><button class="primary" onclick="openTx()">＋ 新增交易</button></div>
+ <div class="grid cards">
+  <div class="card"><div class="label">上月延續結餘</div><div class="value ${ms.carry<0?'negative':'balance'}">${money(dollars(ms.carry))}</div></div>
+  <div class="card"><div class="label">本月收入</div><div class="value income">${money(dollars(ms.income))}</div></div>
+  <div class="card"><div class="label">本月支出</div><div class="value expense">${money(dollars(ms.expense))}</div></div>
+  <div class="card"><div class="label">本月結餘</div><div class="value ${ms.balance<0?'negative':'balance'}">${money(dollars(ms.balance))}</div><div class="sub">延續 ${money(dollars(ms.carry))}＋收入－支出</div></div>
+ </div></div>
+ <div class="section"><div class="section-head"><h2>今日</h2></div><div class="grid cards">
+  <div class="card"><div class="label">今日收入</div><div class="value income">${money(dollars(dt.income))}</div></div>
+  <div class="card"><div class="label">今日支出</div><div class="value expense">${money(dollars(dt.expense))}</div></div>
+ </div></div>
+ <div class="section"><div class="section-head"><h2>${y} 年度</h2></div><div class="grid cards">
+  <div class="card"><div class="label">年度收入</div><div class="value income">${money(dollars(ys.income))}</div></div>
+  <div class="card"><div class="label">年度支出</div><div class="value expense">${money(dollars(ys.expense))}</div></div>
+  <div class="card"><div class="label">年度結餘</div><div class="value ${ys.balance<0?'negative':'balance'}">${money(dollars(ys.balance))}</div></div>
+ </div></div>
+ <div class="section"><div class="section-head"><h2>本月預算</h2><button class="secondary" onclick="setPage('budget')">管理預算</button></div>
+ <div class="card">${bt?`<div class="goal-row"><span>預算 ${money(dollars(bt))}</span><b>${money(dollars(actual))}</b></div><div class="progress"><div style="width:${pct}%"></div></div><div class="goal-row"><span class="${bt-actual<0?'expense':''}">${bt-actual>=0?'剩餘':'超支'} ${money(Math.abs(dollars(bt-actual)))}</span><span>${Math.round(actual/bt*100)}%</span></div>`:`<div class="empty">本月尚未設定預算</div>`}</div></div>
+ <div class="section"><div class="section-head"><h2>存錢進度</h2><button class="secondary" onclick="setPage('savings')">管理目標</button></div>
+ ${db.goals.length?db.goals.map(g=>{let p=g.targetCents?Math.max(0,g.savedCents/g.targetCents*100):0;return `<div class="card goal"><div class="goal-row"><b>${esc(g.name)}</b><span>${Math.min(p,100).toFixed(0)}%</span></div><div class="progress"><div style="width:${Math.min(p,100)}%"></div></div><div class="goal-row"><span>${money(dollars(g.savedCents))} / ${money(dollars(g.targetCents))}</span><span>尚缺 ${money(dollars(Math.max(0,g.targetCents-g.savedCents)))}</span></div></div>`}).join(""):`<div class="card empty">尚未建立存錢目標</div>`}</div>
+ <div class="section"><div class="section-head"><h2>最近 6 個月收支趨勢</h2><span class="legend">綠＝收入　紅＝支出</span></div><div class="card"><div class="chart">${recent.map(r=>{let mx=Math.max(r.in,r.out,1);return `<div class="barbox"><div style="flex:1;display:flex;align-items:end;height:100%;gap:3px"><div class="bar in" title="${money(dollars(r.in))}" style="height:${r.in/mx*100}%"></div><div class="bar out" title="${money(dollars(r.out))}" style="height:${r.out/mx*100}%"></div></div><div class="barlabel">${r.mm.slice(5)}</div></div>`}).join("")}</div></div></div>`;
+}
+function renderTransactions(){
+ let list=[...db.transactions].sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);
+ document.getElementById("transactions").innerHTML=`<div class="section-head"><h2>交易紀錄</h2><button class="primary" onclick="openTx()">＋ 新增交易</button></div>
+ <div class="toolbar"><input id="q" placeholder="搜尋項目或備註" oninput="filterTx()"><input id="dateFilter" type="date" onchange="filterTx()"><select id="typeFilter" onchange="filterTx()"><option value="">全部類型</option><option value="income">收入</option><option value="expense">支出</option></select><select id="catFilter" onchange="filterTx()"><option value="">全部分類</option>${db.categories.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></div>
+ <div class="table-wrap" style="margin-top:12px"><table class="table"><thead><tr><th>日期</th><th>類型</th><th>分類</th><th>項目</th><th>金額</th><th>備註</th><th></th></tr></thead><tbody id="txBody">${txRows(list)}</tbody></table></div>`;
+}
+function txRows(list){return list.length?list.map(t=>`<tr><td>${t.date}</td><td><span class="pill">${t.type==="income"?"收入":"支出"}</span></td><td>${esc(catName(t.categoryId))}</td><td>${esc(t.itemName)}</td><td class="${t.type==="income"?"income":"expense"}">${t.type==="income"?"+":"−"}${money(dollars(t.amountCents))}</td><td>${esc(t.note||"")}</td><td><div class="actions"><button class="secondary" onclick="openTx('${t.id}')">編輯</button><button class="danger" onclick="delTx('${t.id}')">刪除</button></div></td></tr>`).join(""):`<tr><td colspan="7" class="empty">尚無交易紀錄</td></tr>`}
+function filterTx(){let q=(document.getElementById("q")?.value||"").toLowerCase(),d=document.getElementById("dateFilter")?.value||"",ty=document.getElementById("typeFilter")?.value||"",c=document.getElementById("catFilter")?.value||"";let list=db.transactions.filter(t=>(!q||(t.itemName+" "+(t.note||"")).toLowerCase().includes(q))&&(!d||t.date===d)&&(!ty||t.type===ty)&&(!c||t.categoryId===c)).sort((a,b)=>b.date.localeCompare(a.date)||b.createdAt-a.createdAt);document.getElementById("txBody").innerHTML=txRows(list)}
+function openTx(id){let t=db.transactions.find(x=>x.id===id),type=t?.type||"expense";modal("交易",`<form class="form" onsubmit="submitTx(event,'${id||""}')"><div class="row"><div><label>日期</label><input id="fdate" type="date" value="${t?.date||today()}" required></div><div><label>類型</label><select id="ftype" onchange="refreshCats()" required><option value="expense" ${type==="expense"?"selected":""}>支出</option><option value="income" ${type==="income"?"selected":""}>收入</option></select></div></div><div><label>分類</label><select id="fcat" required></select></div><div><label>項目名稱</label><input id="fname" value="${esc(t?.itemName||"")}" required maxlength="80"></div><div><label>金額（NT$）</label><input id="famount" type="number" min="0.01" step="0.01" value="${t?dollars(t.amountCents):""}" required></div><div><label>備註</label><textarea id="fnote" rows="3" maxlength="300">${esc(t?.note||"")}</textarea></div><button class="primary">儲存</button></form>`);refreshCats(t?.categoryId)}
+function refreshCats(selected){let ty=document.getElementById("ftype").value,el=document.getElementById("fcat");el.innerHTML=db.categories.filter(c=>c.type===ty).map(c=>`<option value="${c.id}" ${c.id===selected?"selected":""}>${esc(c.name)}</option>`).join("")}
+function submitTx(e,id){e.preventDefault();let amount=Number(document.getElementById("famount").value);if(!Number.isFinite(amount)||amount<=0)return alert("金額必須大於 0。");let obj={id:id||uid("tx"),date:document.getElementById("fdate").value,type:document.getElementById("ftype").value,categoryId:document.getElementById("fcat").value,itemName:document.getElementById("fname").value.trim(),amountCents:cents(amount),note:document.getElementById("fnote").value.trim(),createdAt:id?(db.transactions.find(x=>x.id===id)?.createdAt||Date.now()):Date.now(),updatedAt:Date.now()};if(!obj.date||!obj.categoryId||!obj.itemName)return alert("請完整填寫日期、分類與項目名稱。");if(id)db.transactions=db.transactions.map(x=>x.id===id?obj:x);else db.transactions.push(obj);save();closeModal();render()}
+function delTx(id){if(confirm("確定要刪除這筆交易嗎？")){db.transactions=db.transactions.filter(t=>t.id!==id);save();render()}}
+function renderBudget(){let m=monthNow(),bs=db.budgets.filter(b=>b.month===m),total=bs.reduce((s,b)=>s+b.amountCents,0),actual=monthTx(m).filter(t=>t.type==="expense").reduce((s,t)=>s+t.amountCents,0);document.getElementById("budget").innerHTML=`<div class="section-head"><h2>每月預算</h2><button class="primary" onclick="openBudget()">＋ 新增預算</button></div><div class="toolbar"><input id="bm" type="month" value="${m}" onchange="renderBudgetMonth()"></div><div id="budgetList"></div>`;renderBudgetMonth()}
+function renderBudgetMonth(){let m=document.getElementById("bm")?.value||monthNow(),bs=db.budgets.filter(b=>b.month===m),total=bs.reduce((s,b)=>s+b.amountCents,0);let actual=monthTx(m).filter(t=>t.type==="expense").reduce((s,t)=>s+t.amountCents,0);document.getElementById("budgetList").innerHTML=`<div class="grid cards section"><div class="card"><div class="label">當月預算總額</div><div class="value">${money(dollars(total))}</div></div><div class="card"><div class="label">當月實際支出</div><div class="value expense">${money(dollars(actual))}</div></div><div class="card"><div class="label">${total-actual>=0?"剩餘預算":"超支金額"}</div><div class="value ${total-actual<0?'negative':''}">${money(Math.abs(dollars(total-actual)))}</div></div></div>${bs.length?bs.map(b=>{let spent=monthTx(m).filter(t=>t.type==="expense"&&(!b.categoryId||t.categoryId===b.categoryId)).reduce((s,t)=>s+t.amountCents,0),p=b.amountCents?spent/b.amountCents*100:0;return `<div class="card goal"><div class="goal-row"><b>${esc(b.itemName)}</b><span>${money(dollars(spent))} / ${money(dollars(b.amountCents))}</span></div><div class="budgetbar"><div class="${p>100?'over':''}" style="width:${Math.min(p,100)}%"></div></div><div class="goal-row"><span class="${p>100?'expense':''}">${p>100?`超支 ${money(dollars(spent-b.amountCents))}`:`剩餘 ${money(dollars(b.amountCents-spent))}`}</span><span>${p.toFixed(0)}%</span></div><div class="actions" style="margin-top:8px"><button class="secondary" onclick="openBudget('${b.id}')">編輯</button><button class="danger" onclick="delBudget('${b.id}')">刪除</button></div></div>`}).join(""):`<div class="card empty">${m} 尚未設定預算</div>`}`}
+function openBudget(id){let b=db.budgets.find(x=>x.id===id),m=document.getElementById("bm")?.value||monthNow();modal("預算",`<form class="form" onsubmit="submitBudget(event,'${id||""}')"><label>預算月份<input id="bmonth" type="month" value="${b?.month||m}" required></label><label>預算項目名稱<input id="bname" value="${esc(b?.itemName||"")}" required></label><label>預算金額（NT$）<input id="bamount" type="number" min="0.01" step="0.01" value="${b?dollars(b.amountCents):""}" required></label><label>對應支出分類（可選）<select id="bcat"><option value="">全部支出</option>${db.categories.filter(c=>c.type==="expense").map(c=>`<option value="${c.id}" ${b?.categoryId===c.id?"selected":""}>${esc(c.name)}</option>`).join("")}</select></label><button class="primary">儲存</button></form>`)}
+function submitBudget(e,id){e.preventDefault();let amount=Number(document.getElementById("bamount").value);if(!Number.isFinite(amount)||amount<=0)return alert("預算金額必須大於 0。");let o={id:id||uid("b"),month:document.getElementById("bmonth").value,itemName:document.getElementById("bname").value.trim(),amountCents:cents(amount),categoryId:document.getElementById("bcat").value||null,createdAt:id?(db.budgets.find(x=>x.id===id)?.createdAt||Date.now()):Date.now(),updatedAt:Date.now()};if(!o.month||!o.itemName)return alert("請完整填寫。");if(id)db.budgets=db.budgets.map(x=>x.id===id?o:x);else db.budgets.push(o);save();closeModal();render()}
+function delBudget(id){if(confirm("確定刪除此預算？")){db.budgets=db.budgets.filter(x=>x.id!==id);save();render()}}
+function renderSavings(){document.getElementById("savings").innerHTML=`<div class="section-head"><h2>存錢目標</h2><button class="primary" onclick="openGoal()">＋ 新增目標</button></div>${db.goals.length?db.goals.map(g=>{let p=g.targetCents?g.savedCents/g.targetCents*100:0,missing=Math.max(0,g.targetCents-g.savedCents);return `<div class="card goal"><div class="goal-row"><h3 style="margin:0">${esc(g.name)}</h3><b>${Math.min(p,100).toFixed(1)}%</b></div><div class="progress"><div style="width:${Math.min(Math.max(p,0),100)}%"></div></div><div class="goal-row"><span>${money(dollars(g.savedCents))} / ${money(dollars(g.targetCents))}</span><span>${missing?`尚缺 ${money(dollars(missing))}`:"已達成"}</span></div><div class="muted" style="margin-top:8px">期間：${g.startDate||"—"} → ${g.targetDate||"—"} ${g.note?`・${esc(g.note)}`:""}</div><div class="actions" style="margin-top:10px"><button class="secondary" onclick="openGoal('${g.id}')">編輯</button><button class="danger" onclick="delGoal('${g.id}')">刪除</button></div></div>`}).join(""):`<div class="card empty">尚未建立存錢目標</div>`}`}
+function openGoal(id){let g=db.goals.find(x=>x.id===id);modal("存錢目標",`<form class="form" onsubmit="submitGoal(event,'${id||""}')"><label>目標名稱<input id="gname" value="${esc(g?.name||"")}" required></label><div class="row"><label>目標金額（NT$）<input id="gtarget" type="number" min="0.01" step="0.01" value="${g?dollars(g.targetCents):""}" required></label><label>已存金額（NT$）<input id="gsaved" type="number" min="0" step="0.01" value="${g?dollars(g.savedCents):0}" required></label></div><div class="row"><label>開始日期<input id="gstart" type="date" value="${g?.startDate||today()}"></label><label>預計完成日期<input id="gtargetdate" type="date" value="${g?.targetDate||""}"></label></div><label>備註<textarea id="gnote" rows="3">${esc(g?.note||"")}</textarea></label><button class="primary">儲存</button></form>`)}
+function submitGoal(e,id){e.preventDefault();let target=Number(document.getElementById("gtarget").value),saved=Number(document.getElementById("gsaved").value);if(!Number.isFinite(target)||target<=0||!Number.isFinite(saved)||saved<0)return alert("目標金額必須大於 0，已存金額不可為負數。");let o={id:id||uid("g"),name:document.getElementById("gname").value.trim(),targetCents:cents(target),savedCents:cents(saved),startDate:document.getElementById("gstart").value,targetDate:document.getElementById("gtargetdate").value,note:document.getElementById("gnote").value.trim(),createdAt:id?(db.goals.find(x=>x.id===id)?.createdAt||Date.now()):Date.now(),updatedAt:Date.now()};if(!o.name)return alert("請輸入目標名稱。");if(id)db.goals=db.goals.map(x=>x.id===id?o:x);else db.goals.push(o);save();closeModal();render()}
+function delGoal(id){if(confirm("確定刪除此存錢目標？")){db.goals=db.goals.filter(x=>x.id!==id);save();render()}}
+function renderSettings(){document.getElementById("settings").innerHTML=`<div class="section-head"><h2>設定</h2></div><div class="grid"><div class="card"><h3>分類管理</h3><p class="muted">收入與支出分類分開管理。刪除分類不會刪除既有交易，既有交易會顯示為「未分類」。</p><div class="actions"><button class="primary" onclick="openCategory('income')">＋ 收入分類</button><button class="secondary" onclick="openCategory('expense')">＋ 支出分類</button></div><div style="margin-top:14px">${["income","expense"].map(type=>`<h4>${type==="income"?"收入分類":"支出分類"}</h4>${db.categories.filter(c=>c.type===type).map(c=>`<div class="goal-row" style="padding:8px 0;border-bottom:1px solid #eee"><span>${esc(c.name)}</span><div class="actions"><button class="secondary" onclick="openCategory('${type}','${c.id}')">編輯</button>${!c.isDefault||true?`<button class="danger" onclick="delCategory('${c.id}')">刪除</button>`:""}</div></div>`).join("")}`).join("")}</div></div><div class="card"><h3>資料備份</h3><p class="muted">資料目前儲存在此瀏覽器的本機儲存空間。可下載 JSON 備份；未來可再加入雲端同步。</p><button class="primary" onclick="exportData()">下載備份</button></div><div class="card"><h3>目前資料量</h3><p>交易：${db.transactions.length} 筆　預算：${db.budgets.length} 筆　目標：${db.goals.length} 個</p></div></div>`}
+function openCategory(type,id){let c=db.categories.find(x=>x.id===id);modal(type==="income"?"收入分類":"支出分類",`<form class="form" onsubmit="submitCategory(event,'${type}','${id||""}')"><label>分類名稱<input id="cname" value="${esc(c?.name||"")}" required maxlength="30"></label><button class="primary">儲存</button></form>`)}
+function submitCategory(e,type,id){e.preventDefault();let name=document.getElementById("cname").value.trim();if(!name)return;if(id)db.categories=db.categories.map(c=>c.id===id?{...c,name}:c);else db.categories.push({id:uid("cat"),name,type,isDefault:false,createdAt:Date.now()});save();closeModal();render()}
+function delCategory(id){let c=db.categories.find(x=>x.id===id);if(!c)return;if(confirm(`確定刪除「${c.name}」？既有交易不會刪除。`)){db.categories=db.categories.filter(x=>x.id!==id);save();render()}}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`記帳備份-${today()}.json`;a.click();URL.revokeObjectURL(a.href)}
+document.getElementById("exportBtn").onclick=exportData;
+function modal(title,body){document.getElementById("modalTitle").textContent=title;document.getElementById("modalBody").innerHTML=body;document.getElementById("modal").classList.remove("hidden")}
+function closeModal(){document.getElementById("modal").classList.add("hidden")}
+document.getElementById("closeModal").onclick=closeModal;
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+render();
+
+</script>
+</body>
+</html>
